@@ -1,0 +1,13 @@
+How to put in new textures:
+	- files have to be the content of the "textures" folder
+	- "raw" folders are ignored
+	- file's extension has to be .png - yet
+	- file's width and height has to be the powers of 2 (ex.: 128 * 256)
+	- naming conventions:
+		- case insensitive
+		- there is a name and a number part of the file name,
+			divided by a '_' character
+		- after the last '_' comes the size of a single frame in the file
+		- ex.: "Shrum_64.png"
+		- the texture's name is "SHRUM" 
+			and a single frame in the file is 64 * 64 in size
