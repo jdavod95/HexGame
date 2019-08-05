@@ -1,5 +1,7 @@
-package game.core.panel;
+package game.core.screen;
 
+import game.core.screen.battleField.GameField;
+import game.core.screen.bottomPanel.UnitPanel;
 import game.match.Combat;
 import game.match.Player;
 import render2d.elements.Point;

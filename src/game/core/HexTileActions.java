@@ -1,7 +1,10 @@
 package game.core;
 
-import game.core.panel.GameField;
+import java.util.List;
+
+import game.core.screen.battleField.GameField;
 import game.match.Combat;
+import game.unit.Unit;
 import render2d.Color;
 import render2d.Hexagon;
 import render2d.Render;
@@ -14,6 +17,7 @@ public class HexTileActions extends CursorActions{
 	private final static ShapeBuilder SHAPES = new ShapeBuilder();
 	
 	private static HexTile selected = null;
+	
 	private final HexTile ownerTile;
 	private Shape hoverShape;
 	
@@ -54,20 +58,14 @@ public class HexTileActions extends CursorActions{
 			ownerTile.setUnit(selected.replaceUnit(ownerTile.getUnit()));
 			clearSelected();
 		}
-/*		} else if(ownerTile.hasUnit() && hasSelected()) {
-			if(selected.hostileTo(ownerTile)) {
-				// he attac
-			} else {
-				// he protecc
-			}*/
 	}
 
-	private boolean hasSelected() {
+	private static boolean hasSelected() {
 		return selected != null;
 	}
 
-	private void clearSelected() {
-		selected.switchSelected();
+	private static void clearSelected() {
+		selected.unSelect();
 		selected = null;
 		GameField.clearHighlight();
 		Combat.takenPlayerAction();
@@ -75,21 +73,19 @@ public class HexTileActions extends CursorActions{
 	
 	public static void setSelectedTile(HexTile onTile) {
 		selected = onTile;
-		onTile.switchSelected();
+		onTile.select();
 	}
 	
+	public static Unit getSelectedUnit() {
+		return selected.getUnit();
+	}
 	public static void unitActionSelect(String action) {
 		// movement
-		HexTile[] valid = GameField.getTilesInRange(
+		List<HexTile> valid = GameField.getTilesInRange(
 					selected,
 					selected.getUnit().getSpeed());
 		for(HexTile tile : valid)
-			try {
-
-				tile.switchHighlighted();
-			} catch (Exception e) {
-				System.out.println("HexTileActions 91: oopsie");
-			}
+			tile.lightUp();
 	}
 	
 }

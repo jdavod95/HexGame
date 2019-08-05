@@ -1,4 +1,4 @@
-package game.core.panel;
+package game.core.screen;
 
 import render2d.elements.Point;
 

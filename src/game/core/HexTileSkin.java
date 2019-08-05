@@ -42,8 +42,8 @@ public class HexTileSkin {
 		selectionSkin = SHAPES
 				.newShape(
 						Hexagon.class,
-						baseSkin.getPos().getNew(9, 9),
-						baseSkin.getW() - 18, baseSkin.getH() - 18)
+						baseSkin.getPos().getNew(6, 6),
+						baseSkin.getW() - 12, baseSkin.getH() - 12)
 				.setColor(SELECT_COLOR)
 				.getShape();
 		
@@ -59,8 +59,8 @@ public class HexTileSkin {
 		highlightSkin[1] = SHAPES
 				.newShape(
 						Hexagon.class,
-						baseSkin.getPos().getNew(9, 9),
-						baseSkin.getW() - 18, baseSkin.getH() - 18)
+						baseSkin.getPos().getNew(6, 6),
+						baseSkin.getW() - 12, baseSkin.getH() - 12)
 				.setColor(BASE_COLOR)
 				.getShape();
 	}
@@ -88,6 +88,10 @@ public class HexTileSkin {
 
 	public int getScale() {
 		return scale;
+	}
+
+	public Point getPos() {
+		return baseSkin.getPos().getNew();
 	}
 	
 	

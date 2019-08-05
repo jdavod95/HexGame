@@ -13,9 +13,9 @@ import java.io.File;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import game.core.panel.Panel;
+import game.core.screen.CombatScreen;
+import game.core.screen.Panel;
 import game.match.Player;
-import game.core.panel.CombatScreen;
 import render2d.Camera;
 import render2d.Color;
 import render2d.Render;
@@ -58,7 +58,7 @@ public class HexBattleApp {
 		Label.loadSymbols();
 		screen = new CombatScreen(
 				Player.REAL,
-				Player.EMPTY);
+				Player.REALTWO);
 		screen.load();
 	}
 	

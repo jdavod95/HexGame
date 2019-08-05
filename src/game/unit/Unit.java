@@ -99,4 +99,14 @@ public abstract class Unit {
 		return onTile;
 	}
 
+	public void setOnTile(HexTile hexTile) {
+		onTile = hexTile;
+	}
+
+	public Skill getSkill(int slot) {
+		switch(slot) {
+			case 0: return hand1.getFirstSkill();
+			default: return hand2.getSecondSkill();
+		}
+	}
 }

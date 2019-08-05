@@ -5,11 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import game.core.HexTileActions;
+import game.core.screen.battleField.GameField;
 import game.unit.Unit;
 
 public class Combat {
-	private Player player1;
-	private Player player2;
+	private Player attacker;
+	private Player defender;
 	private Player winner = null;
 	
 	private List<Unit> allUnits;
@@ -21,8 +22,8 @@ public class Combat {
 	private static boolean playerActionTaken = false;
 	
 	public Combat(Player player1, Player player2) {
-		this.player1 = player1;
-		this.player2 = player2;
+		this.attacker = player1;
+		this.defender = player2;
 		allUnits  = new ArrayList<>();
 		
 		for (Unit unit : player1.getGroup()) 
@@ -56,6 +57,7 @@ public class Combat {
 		HexTileActions.unitActionSelect("MOVE");
 		if(playerActionTaken) {
 			playerActionTaken = false;
+			GameField.clearHighlight();
 			endTurn();
 		}
 	}
@@ -63,7 +65,7 @@ public class Combat {
 		restingUnits.add(activeUnits.remove(activeUnits.size() - 1));
 		if(activeUnits.size() == 0)
 			nextRound();
-		 winner = checkWinCondition();
+		winner = checkWinCondition();
 		if(winner != null)
 			gameOver(winner);
 	}
@@ -78,17 +80,24 @@ public class Combat {
 	public void sortActiveUnits() {
 		// puts slowest units first
 		activeUnits.sort(new Comparator<Unit>() {
+			int result = 0;
 			@Override
 			public int compare(Unit o1, Unit o2) {
-				if(o1.getSpeed() > o2.getSpeed())
-					return -1;
-				else if (o1.getSpeed() < o2.getSpeed())
-					return 1;
-				return 0;
+				if(o1.getSpeed() < o2.getSpeed())
+					result = -1;
+				else if (o1.getSpeed() > o2.getSpeed())
+					result = 1;
+				else {
+					if(o1.isOwner(attacker))
+						result = -1;
+					else
+						result = 1;
+				}
+				return result;
 			}});
 	}
 
-	private void gameOver(Player winner2) {
+	private void gameOver(Player winner) {
 		
 	}
 

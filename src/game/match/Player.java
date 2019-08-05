@@ -8,6 +8,7 @@ import game.unit.Unit;
 public class Player {
 	public final static Player EMPTY = new Player();
 	public final static Player REAL = new Player();
+	public final static Player REALTWO = new Player();
 	
 	private List<Unit> group;
 	

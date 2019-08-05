@@ -1,7 +1,7 @@
 
 package game.core;
 
-import game.core.panel.GameField;
+import game.core.screen.battleField.GameField;
 import game.unit.Unit;
 import game.unit.characters.NoUnit;
 import render2d.drawable.Clickable;
@@ -29,10 +29,6 @@ public class HexTile {
 			facing = HexDirection.WEST;
 	}
 	
-	public int getH() {
-		return tileSkin.getScale();
-	}
-	
 	public Clickable getClickable() {
 		return tileSkin.getClickable();
 	}
@@ -53,6 +49,7 @@ public class HexTile {
 
 	public void setUnit(Unit newUnit) {
 		this.unit = newUnit;
+		this.unit.setOnTile(this);
 		tileSkin.setUnitSkin(unit.getTexName());
 	}
 	
@@ -78,18 +75,20 @@ public class HexTile {
 			&& hasUnit();
 	}
 	
-	public void switchSelected() {
-		if(selected)
-			selected = false;
-		else
-			selected = true;
+	public void select() {
+		selected = true;
 	}
 	
-	public void switchHighlighted() {
-		if(highlighted)
-			highlighted = false;
-		else
-			highlighted = true;
+	public void unSelect() {
+		selected = false;
+	}
+	
+	public void lightUp() {
+		highlighted = true;
+	}
+	
+	public void lightOff() {
+		highlighted = false;
 	}
 
 	public boolean isSelected() {
@@ -98,6 +97,10 @@ public class HexTile {
 
 	public boolean isHighlighted() {
 		return highlighted;
+	}
+
+	public Point getScreenPos() {
+		return tileSkin.getPos();
 	}
 	
 	

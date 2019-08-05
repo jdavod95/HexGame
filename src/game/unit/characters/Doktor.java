@@ -11,4 +11,8 @@ public class Doktor extends Unit{
 		super(owner, onTile, new Sword(), new Sword(), new LeatherArmor(), "DOKTOR");
 	}
 
+	@Override
+	public int getSpeed() {
+		return 3;
+	}
 }
