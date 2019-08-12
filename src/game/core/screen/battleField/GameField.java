@@ -30,11 +30,15 @@ public class GameField extends Panel{
 	private static Rectangle gridBase;
 	
 	private static HexTile[][] hexGrid = new HexTile[TILE_COUNT_VER][TILE_COUNT_HOR];
-
-	public GameField(Point base) {
-		super(base);
-	}
+	private Player attacker;
+	private Player defender;
 	
+	public GameField(Point base, Player attacker, Player defender) {
+		super(base);
+		this.attacker = attacker;
+		this.defender = defender;
+	}
+
 	@Override
 	public void show() {
 	}
@@ -55,6 +59,7 @@ public class GameField extends Panel{
 	@Override
 	public void load() {
 		initMap(TILE_COUNT_HOR, TILE_COUNT_VER);
+		unitSetup(attacker, defender);
 	}
 	
 	private static void initMap(int mapW, int mapH) { 
@@ -83,6 +88,9 @@ public class GameField extends Panel{
 					);
 			}
 		}
+	}
+
+	private void unitSetup(Player attacker, Player defender) {
 		Player.REAL.loadUnits(new Unit[] {new Doktor(Player.REAL, hexGrid[3][5])});
 		hexGrid[3][5].setUnit(Player.REAL.getGroup().get(0));
 		

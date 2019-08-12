@@ -22,7 +22,7 @@ public class CombatScreen extends Panel{
 	}
 	@Override
 	public void load() {
-		gameField = new GameField(new Point(10, 10));
+		gameField = new GameField(new Point(10, 10), p1, p2);
 		gameField.load();
 		unitPanel = new UnitPanel();
 		unitPanel.load();
