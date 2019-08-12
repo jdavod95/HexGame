@@ -1,6 +1,5 @@
 package render2d;
 
-
 import render2d.drawable.ClickableShapeDummy;
 import render2d.drawable.Shape;
 import render2d.elements.CursorActions;

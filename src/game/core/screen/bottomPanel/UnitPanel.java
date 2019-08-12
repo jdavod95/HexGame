@@ -2,7 +2,6 @@ package game.core.screen.bottomPanel;
 
 import game.core.screen.Panel;
 import render2d.Camera;
-import render2d.Render;
 import render2d.elements.Point;
 import root.HexBattleApp;
 

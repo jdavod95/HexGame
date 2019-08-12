@@ -10,7 +10,6 @@ import render2d.Hexagon;
 import render2d.Render;
 import render2d.drawable.Shape;
 import render2d.drawable.ShapeBuilder;
-import render2d.elements.Action;
 import render2d.elements.CursorActions;
 
 public class HexTileActions extends CursorActions{
@@ -29,28 +28,20 @@ public class HexTileActions extends CursorActions{
 					shape.getPos().getNew(1, 0),
 					shape.getW() - 2, shape.getH() - 5)
 				.getShape();
-		
-		setHover(
-			new Action() {
-				@Override
-				public void run() {
-					hoverShape.setColor(new Color(Color.WHITE, 0.2));
-					Render.addUi(hoverShape, 5);
-				}
-			}
-		);
-		
-		setClick(
-			new Action() {
-				@Override
-				public void run() {
-					hoverShape.setColor(new Color(Color.WHITE, 0.6));
-					Render.addUi(hoverShape, 2);
-					if(hasSelected())
-						clickLogic();
-				}
-			}
-		);
+	}
+
+	@Override
+	protected void actionHover() {
+		hoverShape.setColor(new Color(Color.WHITE, 0.2));
+		Render.addUi(hoverShape, 5);
+	}
+
+	@Override
+	protected void actionClick() {
+		hoverShape.setColor(new Color(Color.WHITE, 0.6));
+		Render.addUi(hoverShape, 2);
+		if(hasSelected())
+			clickLogic();
 	}
 	
 	private void clickLogic() {
@@ -79,6 +70,7 @@ public class HexTileActions extends CursorActions{
 	public static Unit getSelectedUnit() {
 		return selected.getUnit();
 	}
+	
 	public static void unitActionSelect(String action) {
 		// movement
 		List<HexTile> valid = GameField.getTilesInRange(

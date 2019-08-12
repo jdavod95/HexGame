@@ -7,10 +7,8 @@ import game.core.HexTileActions;
 import game.core.screen.PanelShapeLayout;
 import render2d.Color;
 import render2d.Render;
-import render2d.drawable.RectangleClick;
 import render2d.drawable.Shape;
 import render2d.drawable.ShapeBuilder;
-import render2d.elements.CursorActions;
 import render2d.elements.Point;
 import root.HexBattleApp;
 
