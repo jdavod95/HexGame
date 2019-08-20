@@ -10,18 +10,21 @@ import render2d.drawable.ShapeBuilder;
 import render2d.elements.Point;
 
 public class HexTileSkin {
-	private final static Color BASE_COLOR = new Color(168, 168, 168);
-	private final static Color SELECT_COLOR = new Color(0, 224, 96);
-	private final static Color HIGHLIGHT_COLOR = new Color(224, 224, 0);
+	
+	public final static Color BASE_COLOR = new Color(168, 168, 168);
+	public final static Color SELECT_COLOR = new Color(0, 224, 96);
+	public final static Color HIGHLIGHT_COLOR = new Color(224, 224, 0);
+	public final static Color HOSTILE_COLOR = new Color(224, 0, 0);
 
 	private final static ShapeBuilder SHAPES = new ShapeBuilder();
 	
 	private HexTile owner;
 	
-	private Shape baseSkin;
-	private Shape unitSkin;
-	private Shape selectionSkin;
-	private Shape[] highlightSkin;
+	private Shape baseShape;
+	private Shape unitShape;
+	private Shape selectionShape;
+	private Shape[] highlightShape;
+	private Shape[] hostileShape;
 	private int scale;
 
 	private Point screenPos;
@@ -31,59 +34,95 @@ public class HexTileSkin {
 		this.screenPos = screenPos;
 		this.scale = scale;
 		
-		baseSkin = SHAPES
-				.newShape(Hexagon.class, screenPos, scale, scale)
-				.setColor(BASE_COLOR)
-				.setClickable(
-						HexagonClick.class,
-						new HexTileActions(SHAPES.getShape(), owner))
-				.getShape();
-		
-		selectionSkin = SHAPES
-				.newShape(
-						Hexagon.class,
-						baseSkin.getPos().getNew(6, 6),
-						baseSkin.getW() - 12, baseSkin.getH() - 12)
-				.setColor(SELECT_COLOR)
-				.getShape();
-		
-		highlightSkin = new Shape[2];
-		highlightSkin[0] = SHAPES
-				.newShape(
-						Hexagon.class,
-						baseSkin.getPos().getNew(3, 3),
-						baseSkin.getW() - 6, baseSkin.getH() - 6)
-				.setColor(HIGHLIGHT_COLOR)
-				.getShape();
-		
-		highlightSkin[1] = SHAPES
-				.newShape(
-						Hexagon.class,
-						baseSkin.getPos().getNew(6, 6),
-						baseSkin.getW() - 12, baseSkin.getH() - 12)
-				.setColor(BASE_COLOR)
-				.getShape();
+		initBaseShape();
+		initSelectShape();
+		initHighlightShape();
+		initHostileShape();
+	}
+
+	private void initHostileShape() {
+		hostileShape = new Shape[] {
+			SHAPES
+			.newShape(
+					Hexagon.class,
+					baseShape.getPos().getNew(3, 3),
+					baseShape.getW() - 6, baseShape.getH() - 6)
+			.setColor(HOSTILE_COLOR)
+			.getShape(),
+
+			SHAPES
+			.newShape(
+					Hexagon.class,
+					baseShape.getPos().getNew(6, 6),
+					baseShape.getW() - 12, baseShape.getH() - 12)
+			.setColor(BASE_COLOR)
+			.getShape()
+		};
+	}
+
+	private void initHighlightShape() {
+		highlightShape = new Shape[] {	
+			SHAPES
+			.newShape(
+					Hexagon.class,
+					baseShape.getPos().getNew(3, 3),
+					baseShape.getW() - 6, baseShape.getH() - 6)
+			.setColor(HIGHLIGHT_COLOR)
+			.getShape(),
+
+			SHAPES
+			.newShape(
+					Hexagon.class,
+					baseShape.getPos().getNew(6, 6),
+					baseShape.getW() - 12, baseShape.getH() - 12)
+			.setColor(BASE_COLOR)
+			.getShape()};
+	}
+
+	private void initSelectShape() {
+		selectionShape = SHAPES
+			.newShape(
+					Hexagon.class,
+					baseShape.getPos().getNew(6, 6),
+					baseShape.getW() - 12, baseShape.getH() - 12)
+			.setColor(SELECT_COLOR)
+			.getShape();
+	}
+
+	private void initBaseShape() {
+		baseShape = SHAPES
+			.newShape(Hexagon.class, screenPos, scale, scale)
+			.setColor(BASE_COLOR)
+			.setClickable(
+					HexagonClick.class,
+					new HexTileActions(SHAPES.getShape(), owner))
+			.getShape();
 	}
 	
 	public void toRender(int l) {
-		Render.addScn(baseSkin, l);
-		if(owner.isHighlighted())
-			Render.addScn(highlightSkin, l);
+		Render.addScn(baseShape, l);
+		if(owner.isHighlighted()) {
+			if(owner.hasUnit()
+			&& !HexTileActions.getSelectedUnit().isOwner(owner.getUnit().getOwner()))
+				Render.addScn(hostileShape, l);
+			else
+				Render.addScn(highlightShape, l);
+		}
 		if(owner.isSelected()) 
-			Render.addScn(selectionSkin, l);
+			Render.addScn(selectionShape, l);
 		if(owner.hasUnit())
-			Render.addScn(unitSkin, l);
+			Render.addScn(unitShape, l);
 	}
 	
 	public void setUnitSkin(String texName) {
-		unitSkin = SHAPES
+		unitShape = SHAPES
 				.newRectangle(screenPos.getNew(0, -scale/3), scale, scale)
 				.setTexture(texName)
 				.getShape();
 	}
 	
 	public Clickable getClickable() {
-		return baseSkin.getClickable();
+		return baseShape.getClickable();
 	}
 
 	public int getScale() {
@@ -91,7 +130,7 @@ public class HexTileSkin {
 	}
 
 	public Point getPos() {
-		return baseSkin.getPos().getNew();
+		return baseShape.getPos().getNew();
 	}
 	
 	

@@ -15,6 +15,7 @@ import org.lwjgl.opengl.DisplayMode;
 
 import game.core.screen.CombatScreen;
 import game.core.screen.Panel;
+import game.core.screen.Screen;
 import game.match.Player;
 import render2d.Camera;
 import render2d.Color;
@@ -32,7 +33,7 @@ public class HexBattleApp {
 	static int ticks = 0;
 	static int sec = 0;
 	
-	private static Panel screen;
+	private static Screen screen;
 	
 	public static void main(String[] args){
 		initDisplay();

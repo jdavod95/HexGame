@@ -22,7 +22,10 @@ public class HexTile {
 		this.tileSkin = new HexTileSkin(this, screenPos, scale);
 		this.gridPos = gridPos;
 		setUnit(unit);
-		
+		setFacing(gridPos);
+	}
+
+	private void setFacing(Point gridPos) {
 		if(gridPos.getY() < GameField.TILE_COUNT_HOR/2)
 			facing = HexDirection.EAST;
 		else 

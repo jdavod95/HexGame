@@ -24,7 +24,7 @@ public class Combat {
 	public Combat(Player player1, Player player2) {
 		this.attacker = player1;
 		this.defender = player2;
-		allUnits  = new ArrayList<>();
+		allUnits = new ArrayList<>();
 		
 		for (Unit unit : player1.getGroup()) 
 			allUnits.add(unit);
@@ -53,7 +53,7 @@ public class Combat {
 		 * 
 		 * */
 		selectedUnit = activeUnits.get(activeUnits.size() - 1);
-		HexTileActions.setSelectedTile(selectedUnit.getOnTile());
+		HexTileActions.setSelectedTile(selectedUnit.getOwnerTile());
 		HexTileActions.unitActionSelect("MOVE");
 		if(playerActionTaken) {
 			playerActionTaken = false;

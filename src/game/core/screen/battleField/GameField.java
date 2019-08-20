@@ -5,8 +5,9 @@ import java.util.List;
 
 import game.core.HexDirection;
 import game.core.HexTile;
+import game.core.screen.CombatScreen;
 import game.core.screen.Panel;
-import game.core.screen.bottomPanel.UnitPanel;
+import game.core.screen.bottomPanel.BottomPanel;
 import game.match.Player;
 import game.unit.Unit;
 import game.unit.characters.Doktor;
@@ -24,9 +25,11 @@ public class GameField extends Panel{
 
 	public final static int TILE_COUNT_HOR = 20;
 	public final static int TILE_COUNT_VER = 20;
+	
 	private final static int TILE_SCALE = 50;
 	private final static ShapeBuilder SHAPES = new ShapeBuilder();
 	private final static Color BASE_COLOR = new Color(224, 224, 224);
+	
 	private static Rectangle gridBase;
 	
 	private static HexTile[][] hexGrid = new HexTile[TILE_COUNT_VER][TILE_COUNT_HOR];
@@ -34,15 +37,14 @@ public class GameField extends Panel{
 	private Player defender;
 	
 	public GameField(Point base, Player attacker, Player defender) {
-		super(base);
+		super(base, 0, 0);
 		this.attacker = attacker;
 		this.defender = defender;
+		
+		initMap(TILE_COUNT_HOR, TILE_COUNT_VER);
+		unitSetup(attacker, defender);
 	}
 
-	@Override
-	public void show() {
-	}
-	
 	@Override
 	public void toRender() {
 		Render.addBgr(gridBase, 1);
@@ -56,12 +58,6 @@ public class GameField extends Panel{
 		}
 	}
 
-	@Override
-	public void load() {
-		initMap(TILE_COUNT_HOR, TILE_COUNT_VER);
-		unitSetup(attacker, defender);
-	}
-	
 	private static void initMap(int mapW, int mapH) { 
 		int scale = TILE_SCALE;
 		Point basePos = new Point(scale/2, scale/2);
@@ -91,8 +87,9 @@ public class GameField extends Panel{
 	}
 
 	private void unitSetup(Player attacker, Player defender) {
-		Player.REAL.loadUnits(new Unit[] {new Doktor(Player.REAL, hexGrid[3][5])});
+		Player.REAL.loadUnits(new Unit[] {new Doktor(Player.REAL, hexGrid[3][5]),new Doktor(Player.REAL, hexGrid[5][5])});
 		hexGrid[3][5].setUnit(Player.REAL.getGroup().get(0));
+		hexGrid[5][5].setUnit(Player.REAL.getGroup().get(1));
 		
 		Player.REALTWO.loadUnits(new Unit[] {new Doktor(Player.REALTWO, hexGrid[7][15])});
 		hexGrid[7][15].setUnit(Player.REALTWO.getGroup().get(0));
@@ -142,7 +139,7 @@ public class GameField extends Panel{
 	
 	private static boolean posInsideView(Point screenPos) {
 		Point lowerBounds = Camera.getCameraPos().getNew(-TILE_SCALE, -TILE_SCALE);
-		Point upperBounds = UnitPanel.getPanelBase().getNew(HexBattleApp.W ,0);
+		Point upperBounds = Camera.getCameraPos().getNew(HexBattleApp.W + TILE_SCALE, CombatScreen.BOTTOMPANEL_POS.getY());
 		
 		return screenPos.getX() > lowerBounds.getX() && screenPos.getX() < upperBounds.getX()
 			&& screenPos.getY() > lowerBounds.getY() && screenPos.getY() < upperBounds.getY();

@@ -33,21 +33,22 @@ public class HexTileActions extends CursorActions{
 	@Override
 	protected void actionHover() {
 		hoverShape.setColor(new Color(Color.WHITE, 0.2));
-		Render.addUi(hoverShape, 5);
+		Render.addUi(hoverShape, 0);
 	}
 
 	@Override
 	protected void actionClick() {
 		hoverShape.setColor(new Color(Color.WHITE, 0.6));
-		Render.addUi(hoverShape, 2);
+		Render.addUi(hoverShape, 0);
 		if(hasSelected())
 			clickLogic();
 	}
 	
 	private void clickLogic() {
-		if(!ownerTile.hasUnit() && ownerTile.isHighlighted()){
+		if(ownerTile.isHighlighted()){
 			ownerTile.setUnit(selected.replaceUnit(ownerTile.getUnit()));
 			clearSelected();
+			Combat.takenPlayerAction();
 		}
 	}
 
@@ -58,13 +59,13 @@ public class HexTileActions extends CursorActions{
 	private static void clearSelected() {
 		selected.unSelect();
 		selected = null;
-		GameField.clearHighlight();
-		Combat.takenPlayerAction();
 	}
 	
 	public static void setSelectedTile(HexTile onTile) {
-		selected = onTile;
-		onTile.select();
+		if(!hasSelected()) {
+			selected = onTile;
+			selected.select();
+		}
 	}
 	
 	public static Unit getSelectedUnit() {

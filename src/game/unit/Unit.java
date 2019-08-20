@@ -29,12 +29,12 @@ public abstract class Unit {
 	
 	private boolean incapacitated;
 
-	private HexTile onTile;
+	private HexTile ownerTile;
 	private Player owner;
 	private String texName;
 	
 	public Unit(Player owner, HexTile onTile, Weapon hand1, Weapon hand2, Armor armor, String texName) {
-		this.onTile = onTile;
+		this.ownerTile = onTile;
 		this.texName = texName;
 		this.owner = owner;
 		this.hand1 = hand1;
@@ -95,12 +95,12 @@ public abstract class Unit {
 		return speedLevel;
 	}
 
-	public HexTile getOnTile() {
-		return onTile;
+	public HexTile getOwnerTile() {
+		return ownerTile;
 	}
 
 	public void setOnTile(HexTile hexTile) {
-		onTile = hexTile;
+		ownerTile = hexTile;
 	}
 
 	public Skill getSkill(int slot) {

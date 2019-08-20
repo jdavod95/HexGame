@@ -1,12 +1,14 @@
-package game.core.screen.bottomPanel;
+package game.core.screen.bottomPanel.subPanels;
 
 import render2d.elements.CursorActions;
 
-public class SkillSlotClick extends CursorActions {
+public class SkillSlotActions extends CursorActions {
+	
 	private static SkillSlot selected;
+	
 	private SkillSlot owner;
 	
-	public SkillSlotClick(SkillSlot owner) {
+	public SkillSlotActions(SkillSlot owner) {
 		this.owner = owner;
 	}
 
